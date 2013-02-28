@@ -1,0 +1,44 @@
+<!doctype html>
+<meta charset=utf-8>
+<meta http-equiv=X-UA-Compatible content=IE=edge,chrome=1>
+<title>GOTTA BE LUCKY LIST</title>
+<meta name=description content="Gotta Be Lcuky">
+<meta name=viewport content=width=device-width>
+<link rel=stylesheet href=css/main.css>
+<body class=machine>
+
+<article class=scoreboard>
+	<div class=section>
+		<p class=old-score></p>
+		<p>Score</p>
+		<!--p>Fuel</p-->
+	</div>
+
+	<div class=section>
+		<p>Game over</p>
+		<p>Insert click</p>
+		<p>1 click 1 play</p>
+	</div>
+
+	<div class=section>
+		<p class=list-name>Gotta be lucky list</p>
+		<ol class=scores>
+		</ol>
+	</div>
+
+	<button class=play>PLAY</button>
+</article>
+
+<article class=winning style=display:none>
+	<p class=win-message>You win!</p>
+	<p class=top-score></p>
+	<input name=player class=player placeholder="INSERT NAME"></input>
+	<button class=win>DONE</button>
+</article>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/1.0.1/lodash.min.js"></script>
+ <script>window.jQuery || document.write('<script src="js/jquery.js"><\/script>')</script>
+  <script>window._ || document.write('<script src="js/lodash.js"><\/script>')</script>
+<script src="js/score.js"></script>
+
