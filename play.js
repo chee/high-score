@@ -17,7 +17,6 @@ fs.watch(game.get( 'scores file' ), function () {
 	var oldScores = _.clone( game.get( 'scores' ) );
 	freshScores().then( function ( scores ) {
 		if ( !_.isEqual( oldScores, scores ) ) {
-			console.log( 'newScores!' );
 			game.get( 'event' ).emit( 'refresh', scores );
 		}
 		game.set( 'scores', scores );
@@ -36,18 +35,14 @@ game.get( '/longget',  function ( request, response ) {
 		oldScores = text;
 	});
 
-	console.log( 'longget requested' );
-
 	response.header( 'Content-Type', 'text/event-stream' );
 	response.header( 'Cache-Control', 'no-cache' );
 	response.header( 'Connection', 'keep-alive' );
 
 	function sendEvent ( text ) {
-		console.log( 'beginning event' );
 		response.write( 'id: ' + new Date().getTime() + '\n' );
 		response.write( 'event: data\n' );
 		response.write( 'data: ' + text + '\n\n' );
-		console.log( 'sent: ', text );
 	}
 
 	function newData ( scores ) {
@@ -74,7 +69,6 @@ function topScores ( text, amount ) {
 	var scores = {};
 	var json = JSON.parse( text );
 	amount = amount || 9;
-	console.log( 'topScores, amount: ', amount );
 	_( json ).keys().sort( function ( a, b ) {
 		return b - a;
 	}).each( function ( points, i ) {
