@@ -18,9 +18,8 @@
 
 	var updateScores = function () {
 		if ( window.EventSource && typeof EventSource === "function" && !source ) {
-			jQuery.get( "/get", {}, processScores, "json" ).done(function() {
-				console.log( 'did get, now doing longget');
-				source = new window.EventSource( "/longget" );
+			jQuery.get( "get", {}, processScores, "json" ).done(function() {
+				source = new window.EventSource( "longget" );
 				source.addEventListener( "data", function ( event ) {
 					var data = JSON.parse( event.data );
 					processScores( data );
@@ -29,7 +28,7 @@
 			return;
 		} else if ( !source ) {
 			clearTimeout( updateScores.timeout );
-			jQuery.get( "/get", {}, processScores, "json" );
+			jQuery.get( "get", {}, processScores, "json" );
 			updateScores.timeout = setTimeout( updateScores, 5000 );
 		}
 	};
@@ -54,7 +53,6 @@
 		var amount = items.length;
 
 		for ( var i = 0; i <= amount - 1; i++ ) {
-			console.log( i );
 			var chartChildren = chart.children();
 			chartChildren.eq( chartChildren.length - i - 1 ).remove();
 		}
@@ -139,7 +137,7 @@
 			return;
 		} else {
 			playerName = playerName.trim().replace( /\s+/g, " " );
-			jQuery.post( "/put", { player: playerName }, postSuccess );
+			jQuery.post( "put", { player: playerName }, postSuccess );
 		}
 	}
 

@@ -8,21 +8,41 @@ var game = express();
 game.set( 'title', 'Scores' );
 game.set( 'scores file', 'scores' );
 game.set( 'scores', undefined );
+game.set( 'default scores', JSON.stringify({
+	"1": "zero_cool",
+	"2": "abigail",
+	"3": "abbie",
+	"5": "aby",
+	"7": "abby",
+	"9": "abbey",
+	"13": "aby",
+	"21": "abbie",
+	"35": "abigail"
+}));
 game.set( 'event', new events.EventEmitter() );
 
 game.use( express.bodyParser() );
 game.use( express.static( __dirname + '/public' ) );
 
-fs.watch(game.get( 'scores file' ), function () {
-	var oldScores = _.clone( game.get( 'scores' ) );
-	freshScores().then( function ( scores ) {
-		if ( !_.isEqual( oldScores, scores ) ) {
-			game.get( 'event' ).emit( 'refresh', scores );
-		}
-		game.set( 'scores', scores );
 
-	});
-});
+function watch() {
+	try {
+		fs.watch(game.get( 'scores file' ), function ( err ) {
+			var oldScores = _.clone( game.get( 'scores' ) );
+			freshScores().then( function ( scores ) {
+				if ( !_.isEqual( oldScores, scores ) ) {
+					game.get( 'event' ).emit( 'refresh', scores );
+				}
+				game.set( 'scores', scores );
+
+			});
+		});
+	} catch ( error ) {
+		console.warn( 'fuck, no scores file.' );
+		fs.writeFile( game.get( 'scores file' ), game.get( 'default scores' ), watch );
+	}
+}
+watch();
 
 game.get( '/',  function ( request, response ) {
 	response.redirect( '/index.html' );
@@ -61,7 +81,7 @@ game.get( '/get',  function ( request, response ) {
 		response.header( 'Cache-Control', 'no-cache' );
 		response.send( 200, topScores( text ) );
 	}).fail( function () {
-		response.send( 404, 'FUCK' );
+		response.send( 200, game.get( 'default scores' ) );
 	});
 });
 
