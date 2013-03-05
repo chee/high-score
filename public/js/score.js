@@ -7,6 +7,7 @@
 	var chart = jQuery( ".scores" );
 	var oldScore = jQuery( ".old-score" );
 	var source;
+	var topScore;
 
 	String.prototype.lpad = function( padWith, length ) {
 		var string = this;
@@ -35,6 +36,11 @@
 
 	function processScores ( data ) {
 		var items = jQuery( "<ul>" );
+
+		if ( _.has( data, topScore ) ) {
+			return;
+		}
+
 		_( data ).keys().reverse().each(function ( points, i ) {
 			var name = data[ points ];
 			var item = jQuery( "<li>" );
@@ -45,6 +51,11 @@
 			item.append( nameSpan ).append( " " ).append( scoreSpan );
 
 			items.append( item );
+
+			// omg i promise this is temporary
+			if ( i === 0 ) {
+				topScore = points;
+			}
 		});
 
 		cleanScores( items );

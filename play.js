@@ -4,7 +4,6 @@
 'use strict';
 
 var game = express();
-
 game.set( 'title', 'Scores' );
 game.set( 'scores file', 'scores' );
 game.set( 'scores', undefined );
